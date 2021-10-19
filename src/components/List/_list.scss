@@ -1,0 +1,12 @@
+.message-list {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  &__item {
+    margin-bottom: 1rem;
+  }
+}
