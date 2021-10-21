@@ -5,16 +5,16 @@
 }
 
 body {
-  background-color: #282c34;
-  color: white;
+  background-color: #eeeeee;
+  color: #0000008a;
   font-size: calc(10px + 2vmin);
   min-height: 100vh;
-  padding-top: 3rem;
+  padding-top: 7rem;
   transition: background-color 0.5s, color 0.5s;
 
-  &.light {
-    background-color: #eeeeee;
-    color: #282c34;
+  &.dark {
+    background-color: #20262d;
+    color: #eeeeee;
   }
 }
 

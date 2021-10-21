@@ -1,3 +1,22 @@
+:root {
+  --x-dist: 0;
+}
+$easing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
+
+@keyframes list-dismissal {
+  0% {
+    height: calc(#{var(--height)} * 1px);
+  }
+  90% {
+    height: 0;
+    transform: translateX(100vw);
+    transition: transform 0.5s, height 0.25s linear 0.45s;
+  }
+  100% {
+    display: none;
+  }
+}
+
 .message-list {
   align-items: center;
   display: flex;
@@ -7,6 +26,32 @@
   padding: 0;
 
   &__item {
+    height: 100%;
     margin-bottom: 1rem;
+    touch-action: none;
+    position: relative;
+    transform: translateX(calc(#{var(--x-dist)} * 1px));
+    transition: transform 0.5s $easing;
+    max-height: calc(#{var(--height)} * 1px + 10px);
+    //  cubic-bezier(0.28, 0, 1, 0.28)
+    div {
+      cursor: move;
+
+      span,
+      p {
+        cursor: default;
+      }
+    }
+
+    &.swipe-active {
+      transition: transform 0s;
+    }
+    &.swipe-out {
+      max-height: 0;
+      margin: 0;
+      transform: translateX(100vw) scaleX(0.00001);
+      transition: transform 0.5s $easing, max-height 0.45s $easing 0.05s,
+        margin 0.45s $easing 0.05s;
+    }
   }
 }

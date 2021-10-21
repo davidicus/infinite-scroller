@@ -1,27 +1,18 @@
 import { useState, useRef, useCallback } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { purple } from '@mui/material/colors';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 import AppBar from './components/AppBar/AppBar';
 import List from './components/List/List';
 import useQuery from './useQuery';
 
-import './App.scss';
+import './app.scss';
+
+const api = `http://message-list.appspot.com/messages`;
 
 function App() {
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#5f41b0',
-      },
-      secondary: {
-        main: '#f44336',
-      },
-    },
-  });
   const [pageNumber, setPageNumber] = useState(1);
 
-  const api = `http://message-list.appspot.com/messages`;
   const { loading, error, items, hasMore, pageToken } = useQuery(
     api,
     pageNumber
@@ -48,18 +39,28 @@ function App() {
         observer.current?.disconnect();
       }
     },
-    [loading, hasMore]
+    [loading, pageToken]
   );
 
+  function handleSwipe(index) {
+    items.splice(index - 1, 1);
+  }
+
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-        <AppBar />
-        <h1>Messages: {items.length}</h1>
-        <List items={items} lastItemRef={lastItem} loadMore={loading} />
-        {error && 'Error...'}
-      </div>
-    </ThemeProvider>
+    <div className="App">
+      <AppBar itemsCount={items.length} />
+      {error ? (
+        <Alert severity="error" sx={{ width: '60%', margin: '0 auto 1rem' }}>
+          ERROR: {error.message}
+        </Alert>
+      ) : null}
+      <List
+        items={items}
+        lastItemRef={lastItem}
+        loadMore={pageToken}
+        handleSwipe={handleSwipe}
+      />
+    </div>
   );
 }
 

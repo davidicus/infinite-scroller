@@ -1,48 +1,47 @@
 import * as React from 'react';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import Brightness2Icon from '@mui/icons-material/Brightness2';
-import IconButton from '@mui/material/IconButton';
+import NightlightIcon from '@mui/icons-material/Nightlight';
 import Tooltip from '@mui/material/Tooltip';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 function ModeSwitch() {
   // Dark mode state
-  const [darkMode, setDarkMode] = React.useState(true);
+  const [darkMode, setDarkMode] = React.useState(false);
 
   const handleChange = () => {
-    document.querySelector('body').classList.toggle('light');
+    document.querySelector('body').classList.toggle('dark');
     setDarkMode((prev) => !prev);
   };
 
   return (
-    <div className="app-theme-toggle">
-      {darkMode ? (
+    <ToggleButtonGroup
+      color="secondary"
+      value={darkMode ? 'dark-mode' : 'light-mode'}
+      exclusive
+      onChange={handleChange}
+    >
+      <ToggleButton
+        value="light-mode"
+        aria-label="Toggle light mode"
+        className="app-bar__mode-switch"
+      >
         <Tooltip title="Toggle light mode">
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-            onClick={handleChange}
-          >
-            <WbSunnyIcon />
-          </IconButton>
+          <WbSunnyIcon size="small" sx={{ marginRight: '0.5rem' }} />
         </Tooltip>
-      ) : (
+        Light mode
+      </ToggleButton>
+      <ToggleButton
+        value="dark-mode"
+        aria-label="Toggle dark mode"
+        lassName="app-bar__mode-switch"
+      >
         <Tooltip title="Toggle dark mode">
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-            onClick={handleChange}
-          >
-            <Brightness2Icon />
-          </IconButton>
+          <NightlightIcon size="small" sx={{ marginRight: '0.5rem' }} />
         </Tooltip>
-      )}
-    </div>
+        Dark mode
+      </ToggleButton>
+    </ToggleButtonGroup>
   );
 }
 
