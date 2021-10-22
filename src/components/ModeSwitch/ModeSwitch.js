@@ -7,7 +7,9 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 function ModeSwitch() {
   // Dark mode state
-  const [darkMode, setDarkMode] = React.useState(false);
+  const [darkMode, setDarkMode] = React.useState(
+    document.querySelector('body').classList.contains('dark')
+  );
 
   const handleChange = () => {
     document.querySelector('body').classList.toggle('dark');

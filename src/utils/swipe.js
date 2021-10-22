@@ -125,12 +125,7 @@ function unify(e) {
 //   e.preventDefault();
 // }
 
-const SwipeAndDismiss = ({
-  Element = 'li',
-  children,
-  className,
-  handleSwipeCb,
-}) => {
+const SwipeAndDismiss = ({ Element = 'li', children, className }) => {
   const elementRef = useRef({});
   const [height, setHeight] = useState();
   const [dismissed, setDismissed] = useState(false);
@@ -158,7 +153,7 @@ const SwipeAndDismiss = ({
     }
   }, []);
 
-  function handleswipe(swipedir, index) {
+  function handleswipe(swipedir) {
     console.log('Swiper is swiping ', swipedir);
     if (swipedir === 'right') {
       setDismissed(true);
@@ -166,16 +161,12 @@ const SwipeAndDismiss = ({
   }
 
   function handleTouchStart(e) {
-    // if (!e.changedTouches) {
-    //   e.currentTarget.style.visibility = 'hidden';
-    // }
     let touchObj = unify(e);
     setSwipedir('none');
     setDist(0);
     startX.current = touchObj.pageX;
     startY.current = touchObj.pageY;
     startTime.current = new Date().getTime(); // record time when finger first makes contact with surface
-    // e.preventDefault();
     if (touchObj.target.tagName === 'DIV' || e.changedTouches) {
       active.current = true;
     }
@@ -183,19 +174,14 @@ const SwipeAndDismiss = ({
   }
 
   function handleTouchMove(e) {
-    // e.preventDefault(); // prevent scrolling when inside DIV
     let touchObj = unify(e);
     distX.current = touchObj.pageX - startX.current;
     if (active.current && distX.current > 0) {
       setDist(distX.current);
-      // console.log(e.target.tagName);
     }
   }
 
   function handleTouchEnd(e) {
-    // if (!e.changedTouches) {
-    //   e.currentTarget.style.visibility = 'visible';
-    // }
     var touchObj = unify(e);
     distX.current = touchObj.pageX - startX.current; // get horizontal dist traveled by finger while in contact with surface
     distY.current = touchObj.pageY - startY.current; // get vertical dist traveled by finger while in contact with surface
@@ -223,7 +209,6 @@ const SwipeAndDismiss = ({
       setDist(0);
     }
     active.current = false;
-    // e.preventDefault();
   }
 
   return (
@@ -248,13 +233,3 @@ const SwipeAndDismiss = ({
 };
 
 export default SwipeAndDismiss;
-
-//USAGE:
-/*
-var el = document.getElementById('someel')
-swipedetect(el, function(swipedir){
-  swipedir contains either "none", "left", "right", "top", or "down"
-  if (swipedir =='left')
-      alert('You just swiped left!')
-})
-*/

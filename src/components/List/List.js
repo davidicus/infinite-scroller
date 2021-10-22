@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -9,25 +9,14 @@ import Skeleton from '@mui/material/Skeleton';
 import SwipeAndDismiss from '../../utils/swipe';
 import './_list.scss';
 
-function List({ items = [], lastItemRef, loadMore, handleSwipe }) {
-  const listRef = useCallback((node) => {
-    // swipeDetect(node, function (swipedir) {
-    //   // swipedir contains either "none", "left", "right", "top", or "down"
-    //   if (swipedir === 'right') {
-    //     alert('You just swiped right!');
-    //   }
-    // });
-  });
+function List({ items = [], lastItemRef, loadMore }) {
   return (
     <>
       <ul className="message-list">
         {items.map((item, index) => {
           if (items.length === index + 3) {
             return (
-              <SwipeAndDismiss
-                key={item.id + index}
-                className="message-list__item"
-              >
+              <SwipeAndDismiss key={item.id} className="message-list__item">
                 <Card ref={lastItemRef} sx={{ maxWidth: 645, width: '90vw' }}>
                   <CardHeader
                     avatar={
@@ -53,12 +42,7 @@ function List({ items = [], lastItemRef, loadMore, handleSwipe }) {
             );
           } else {
             return (
-              <SwipeAndDismiss
-                key={item.id + index}
-                className="message-list__item"
-                // ref={listRef}
-                handleSwipeCb={() => handleSwipe(index)}
-              >
+              <SwipeAndDismiss key={item.id} className="message-list__item">
                 <Card sx={{ maxWidth: 645, width: '90vw' }}>
                   <CardHeader
                     avatar={
