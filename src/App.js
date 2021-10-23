@@ -1,39 +1,43 @@
-import { useState, useRef, useCallback } from 'react';
+import * as React from 'react';
 import Alert from '@mui/material/Alert';
 
 import AppBar from './components/AppBar/AppBar';
 import List from './components/List/List';
 import useQuery from './useQuery';
 
-import './App.scss';
+import './app.scss';
 
 const api = `http://message-list.appspot.com/messages`;
 
 function App() {
-  const [pageNumber, setPageNumber] = useState(1);
-  const { loading, error, items, hasMore, pageToken } = useQuery(
-    api,
-    pageNumber
-  );
+  const [pageNumber, setPageNumber] = React.useState(1);
+  // Initial call to api and initialization of list state
+  const { loading, error, items, pageToken } = useQuery(api, pageNumber);
 
-  const observer = useRef();
-  const lastItem = useCallback(
+  const observer = React.useRef();
+  const lastItem = React.useCallback(
     (node) => {
+      // If loading just return
       if (loading) {
         return;
       }
+      // Disconnect from any old observers
       if (observer.current) {
         observer.current.disconnect();
       }
+      // Create a new observer
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
+        // If lastItem is in veiwport & we have a pageToken
+        // trigger a new GET by updating pageToken state
+        if (entries[0].isIntersecting && pageToken !== null) {
           setPageNumber(pageToken);
-          console.log(entries[0]);
         }
       });
+      // Once component mounts tell our observer to observe it
       if (node) {
         observer.current?.observe(node);
       } else {
+        // Disconnect once component unmounts
         observer.current?.disconnect();
       }
     },

@@ -1,8 +1,5 @@
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+@use './components/AppBar/app-bar';
+@use './components/List/list';
 
 body {
   background-color: #eeeeee;
@@ -14,14 +11,5 @@ body {
   &.dark {
     background-color: #20262d;
     color: #eeeeee;
-  }
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
   }
 }

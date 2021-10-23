@@ -3,20 +3,6 @@
 }
 $easing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
 
-@keyframes list-dismissal {
-  0% {
-    height: calc(#{var(--height)} * 1px);
-  }
-  90% {
-    height: 0;
-    transform: translateX(100vw);
-    transition: transform 0.5s, height 0.25s linear 0.45s;
-  }
-  100% {
-    display: none;
-  }
-}
-
 .message-list {
   align-items: center;
   display: flex;
@@ -24,32 +10,28 @@ $easing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
   height: 100%;
   list-style-type: none;
   margin: 0 auto;
+  max-width: 645px;
   padding: 7rem 0 0;
   position: relative;
   width: 90vw;
-  max-width: 645px;
 
   &__item {
     height: 100%;
     margin-bottom: 1rem;
-    touch-action: none;
-    position: relative;
-    transform: translateX(calc(#{var(--x-dist)} * 1px));
-    transition: transform 0.5s $easing;
     max-height: calc(#{var(--height)} * 1px + 10px);
+    position: relative;
+    touch-action: none;
+    transform: translateX(calc(#{var(--x-dist)} * 1px));
+    transition: transform 0.5s $easing, height 0.5s $easing;
 
     &--hidden {
-      display: none;
-      // position: absolute;
-      // top: calc(#{var(--ycord)} * 1px);
-      min-height: calc(#{var(--height)} * 1px + 10px);
+      // min-height: calc(#{var(--height)} * 1px + 10px);
 
       & div {
         display: none;
       }
     }
 
-    //  cubic-bezier(0.28, 0, 1, 0.28)
     div {
       cursor: move;
 
@@ -62,6 +44,7 @@ $easing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
     &.swipe-active {
       transition: transform 0s;
     }
+
     &.swipe-out {
       max-height: 0;
       margin: 0;

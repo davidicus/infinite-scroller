@@ -5,12 +5,13 @@ import Tooltip from '@mui/material/Tooltip';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
-function ModeSwitch() {
+export default function ModeSwitch() {
   // Dark mode state
   const [darkMode, setDarkMode] = React.useState(
     document.querySelector('body').classList.contains('dark')
   );
 
+  // Add dark mode class
   const handleChange = () => {
     document.querySelector('body').classList.toggle('dark');
     setDarkMode((prev) => !prev);
@@ -46,5 +47,3 @@ function ModeSwitch() {
     </ToggleButtonGroup>
   );
 }
-
-export default ModeSwitch;

@@ -10,7 +10,6 @@ const theme = createTheme({
   palette: {
     primary: {
       main: purple[600],
-      // '#5f41b0',
     },
     secondary: {
       main: pink[300],
