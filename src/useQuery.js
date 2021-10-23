@@ -10,7 +10,7 @@ export default function useQuery(query, page) {
     setLoading(true);
     setError(false);
     setPageToken(null);
-    fetch(`${query}?pageToken=${page}`)
+    fetch(`${query}?pageToken=${page}&limit=5`)
       .then((res) => res.json())
       .then((res) => {
         setLoading(false);

@@ -5,7 +5,7 @@ import AppBar from './components/AppBar/AppBar';
 import List from './components/List/List';
 import useQuery from './useQuery';
 
-import './app.scss';
+import './App.scss';
 
 const api = `http://message-list.appspot.com/messages`;
 
@@ -28,6 +28,7 @@ function App() {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           setPageNumber(pageToken);
+          console.log(entries[0]);
         }
       });
       if (node) {

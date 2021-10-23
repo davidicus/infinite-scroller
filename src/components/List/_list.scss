@@ -21,9 +21,13 @@ $easing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
   align-items: center;
   display: flex;
   flex-direction: column;
+  height: 100%;
   list-style-type: none;
-  margin: 0;
-  padding: 0;
+  margin: 0 auto;
+  padding: 7rem 0 0;
+  position: relative;
+  width: 90vw;
+  max-width: 645px;
 
   &__item {
     height: 100%;
@@ -33,6 +37,18 @@ $easing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
     transform: translateX(calc(#{var(--x-dist)} * 1px));
     transition: transform 0.5s $easing;
     max-height: calc(#{var(--height)} * 1px + 10px);
+
+    &--hidden {
+      display: none;
+      // position: absolute;
+      // top: calc(#{var(--ycord)} * 1px);
+      min-height: calc(#{var(--height)} * 1px + 10px);
+
+      & div {
+        display: none;
+      }
+    }
+
     //  cubic-bezier(0.28, 0, 1, 0.28)
     div {
       cursor: move;

@@ -47,6 +47,7 @@ function List({ items = [], lastItemRef, loadMore }) {
                   <CardHeader
                     avatar={
                       <Avatar
+                        sx={{ background: '#eee' }}
                         aria-label="Author"
                         src={`http://message-list.appspot.com${item.author.photoUrl}`}
                         alt={item.author.name}
@@ -68,7 +69,7 @@ function List({ items = [], lastItemRef, loadMore }) {
             );
           }
         })}
-        <li
+        {/* <li
           className="message-list__skeleton"
           sx={{
             maxWidth: 645,
@@ -105,7 +106,7 @@ function List({ items = [], lastItemRef, loadMore }) {
               <Skeleton animation="wave" height={10} width="80%" />
             </CardContent>
           </Card>
-        </li>
+        </li> */}
       </ul>
     </>
   );

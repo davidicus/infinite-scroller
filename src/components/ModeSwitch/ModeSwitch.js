@@ -36,7 +36,7 @@ function ModeSwitch() {
       <ToggleButton
         value="dark-mode"
         aria-label="Toggle dark mode"
-        lassName="app-bar__mode-switch"
+        className="app-bar__mode-switch"
       >
         <Tooltip title="Toggle dark mode">
           <NightlightIcon size="small" sx={{ marginRight: '0.5rem' }} />

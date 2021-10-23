@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import classnames from 'classnames';
 function unify(e) {
   return e.changedTouches ? e.changedTouches[0] : e;
@@ -139,26 +139,57 @@ const SwipeAndDismiss = ({ Element = 'li', children, className }) => {
   const restraint = 100; // maximum distance allowed at the same time in perpendicular direction
   const allowedTime = 600; // maximum time allowed to travel that distance
   const startTime = useRef(0);
-  const active = useRef(false);
+  const active = useRef(false); // swipe is an action so dragging should happen
+  const [scrollTop, setScrollTop] = useState(0);
+  const [ycord, setYcord] = useState(0);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    if (swipedir && swipedir !== 'none') {
-      handleswipe(swipedir);
+    // if the swipe is to the right dismiss
+    if (swipedir && swipedir === 'right') {
+      setDismissed(true);
     }
   }, [swipedir]);
 
   useEffect(() => {
-    if (elementRef.current) {
-      setHeight(elementRef.current?.getBoundingClientRect().height);
+    const onScroll = (e) => setScrollTop(e.target.documentElement.scrollTop);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [scrollTop]);
+
+  useEffect(() => {
+    if (ycord < -500) {
+      setHidden(true);
+    }
+  }, [ycord]);
+
+  const observer = useRef();
+  const cardItem = useCallback((node) => {
+    let onScroll;
+    if (observer.current) {
+      observer.current.disconnect();
+    }
+    observer.current = new IntersectionObserver((entries) => {
+      // if (entries[0].isIntersecting) {
+      //   setHidden(false);
+      // } else {
+      //   setHidden(true);
+      // }
+    });
+    if (node) {
+      setHeight(node.getBoundingClientRect().height);
+      setYcord(node.getBoundingClientRect().y);
+      onScroll = (e) => {
+        setScrollTop(e.target.documentElement.scrollTop);
+        setYcord(node.getBoundingClientRect().y);
+      };
+      window.addEventListener('scroll', onScroll);
+      observer.current?.observe(node);
+    } else {
+      window.removeEventListener('scroll', onScroll);
+      observer.current?.disconnect();
     }
   }, []);
-
-  function handleswipe(swipedir) {
-    console.log('Swiper is swiping ', swipedir);
-    if (swipedir === 'right') {
-      setDismissed(true);
-    }
-  }
 
   function handleTouchStart(e) {
     let touchObj = unify(e);
@@ -213,13 +244,14 @@ const SwipeAndDismiss = ({ Element = 'li', children, className }) => {
 
   return (
     <Element
-      ref={elementRef}
+      ref={cardItem}
       className={classnames({
         [className]: className,
         'swipe-active': active.current,
         'swipe-out': dismissed,
+        [`${className}--hidden`]: hidden,
       })}
-      style={{ '--x-dist': dist, '--height': height }}
+      style={{ '--x-dist': dist, '--height': height, '--ycord': ycord }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
