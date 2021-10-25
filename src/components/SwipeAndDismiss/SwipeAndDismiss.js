@@ -1,125 +1,128 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import * as React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
+// Utility to return the right object from the touch/ mouse event
 function unify(e) {
   return e.changedTouches ? e.changedTouches[0] : e;
 }
 
-const SwipeAndDismiss = ({ Element = 'li', children, className }) => {
-  const elementRef = useRef({});
-  const [height, setHeight] = useState();
-  const [dismissed, setDismissed] = useState(false);
-  const [swipedir, setSwipedir] = useState();
-  const startX = useRef(0);
-  const startY = useRef(0);
-  const [dist, setDist] = useState(0);
-  const distX = useRef(0);
-  const distY = useRef(0);
-  const threshold = 150; //required min distance traveled to be considered swipe
-  const restraint = 100; // maximum distance allowed at the same time in perpendicular direction
-  const allowedTime = 600; // maximum time allowed to travel that distance
-  const startTime = useRef(0);
-  const active = useRef(false); // swipe is an action so dragging should happen
-  const [scrollTop, setScrollTop] = useState(0);
-  const [ycord, setYcord] = useState(0);
-  const [hidden, setHidden] = useState(false);
+const propTypes = {
+  /** Type of element that this component should render as wrapper */
+  Element: PropTypes.string,
+  /** Callback to update message list when one has been dismissed */
+  handleDismissal: PropTypes.func,
+};
 
-  useEffect(() => {
+export default function SwipeAndDismiss({
+  Element,
+  children,
+  className,
+  handleDismissal,
+}) {
+  // Set the custom property to be able to animate the height on dismissal
+  const [height, setHeight] = React.useState();
+  // Swipe passed all requirements to register a right swipe
+  const [dismissed, setDismissed] = React.useState(false);
+  // The direction of the swipe
+  const [swipedir, setSwipedir] = React.useState();
+  // Swipe calculations starting point
+  const startX = React.useRef(0);
+  const startY = React.useRef(0);
+  // How far the swipe was (update state to trigger a render)
+  const [dist, setDist] = React.useState(0);
+  const distX = React.useRef(0);
+  const distY = React.useRef(0);
+  // Required min distance traveled to be considered swipe
+  const threshold = 150;
+  // Maximum distance allowed at the same time in perpendicular direction
+  const restraint = 100;
+  // Maximum time allowed to travel that distance
+  const allowedTime = 1000;
+  // Time calculations starting point
+  const startTime = React.useRef(0);
+  // Actively swiping so dragging should happen
+  const active = React.useRef(false);
+
+  React.useEffect(() => {
     // if the swipe is to the right dismiss
     if (swipedir && swipedir === 'right') {
       setDismissed(true);
     }
   }, [swipedir]);
 
-  useEffect(() => {
-    const onScroll = (e) => setScrollTop(e.target.documentElement.scrollTop);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [scrollTop]);
-
-  useEffect(() => {
-    if (ycord < -500) {
-      setHidden(true);
-    }
-  }, [ycord]);
-
-  const observer = useRef();
-  const cardItem = useCallback((node) => {
-    let onScroll;
-    if (observer.current) {
-      observer.current.disconnect();
-    }
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        // setHidden(false);
-      } else {
-        // setHidden(true);
-      }
-    });
+  // Use callback ref to be able to set height variable
+  // eslint-disable-next-line
+  const cardItem = React.useCallback((node) => {
     if (node) {
       setHeight(node.getBoundingClientRect().height);
-      setYcord(node.getBoundingClientRect().y);
-      onScroll = (e) => {
-        setScrollTop(e.target.documentElement.scrollTop);
-        setYcord(node.getBoundingClientRect().y);
-      };
-      window.addEventListener('scroll', onScroll);
-      observer.current?.observe(node);
-    } else {
-      window.removeEventListener('scroll', onScroll);
-      observer.current?.disconnect();
     }
-  }, []);
+  });
 
+  // Start drag caclulations
   function handleTouchStart(e) {
     let touchObj = unify(e);
+    // Zero out the values
     setSwipedir('none');
     setDist(0);
+    // Set starting coordinate values
     startX.current = touchObj.pageX;
     startY.current = touchObj.pageY;
-    startTime.current = new Date().getTime(); // record time when finger first makes contact with surface
+    // Record time when finger first makes contact
+    startTime.current = new Date().getTime();
+    // Make sure we still allow for text to be highlighted by checking target on non touch
     if (touchObj.target.tagName === 'DIV' || e.changedTouches) {
       active.current = true;
     }
-    console.log(startX.current);
+    e.preventDefault();
   }
 
+  // Update components position during swipe
   function handleTouchMove(e) {
     let touchObj = unify(e);
     distX.current = touchObj.pageX - startX.current;
     if (active.current && distX.current > 0) {
       setDist(distX.current);
     }
+    e.preventDefault();
   }
 
   function handleTouchEnd(e) {
     var touchObj = unify(e);
-    distX.current = touchObj.pageX - startX.current; // get horizontal dist traveled by finger while in contact with surface
-    distY.current = touchObj.pageY - startY.current; // get vertical dist traveled by finger while in contact with surface
-    // get time elapsed
+    // No longer actively swiping
+    active.current = false;
+    // Get horizontal dist traveled by finger while in contact with surface
+    distX.current = touchObj.pageX - startX.current;
+    // Get vertical dist traveled by finger while in contact with surface
+    distY.current = touchObj.pageY - startY.current;
+    // Get time elapsed
     if (new Date().getTime() - startTime.current <= allowedTime) {
-      // first condition for awipe met
+      // Swipe timing condition met
       if (
         Math.abs(touchObj.pageX - startX.current) >= threshold &&
         Math.abs(touchObj.pageY - startY.current) <= restraint
       ) {
-        // 2nd condition for horizontal swipe met
-        setSwipedir(touchObj.pageX - startX.current < 0 ? 'left' : 'right'); // if dist traveled is negative, it indicates left swipe
+        // Distance and threshold tolerances met for horiztonal swipe
+        // if dist traveled is negative, it indicates left swipe
+        setSwipedir(touchObj.pageX - startX.current < 0 ? 'left' : 'right');
         setDist(0);
       } else if (
         Math.abs(touchObj.pageY - startY.current) >= threshold &&
         Math.abs(touchObj.pageX - startX.current) <= restraint
       ) {
-        // 2nd condition for vertical swipe met
-        setSwipedir(touchObj.pageY - startY.current < 0 ? 'up' : 'down'); // if dist traveled is negative, it indicates up swipe
+        // Distance and threshold tolerances met for vertical swipe
+        // if dist traveled is negative, it indicates up swipe
+        setSwipedir(touchObj.pageY - startY.current < 0 ? 'up' : 'down');
         distX.current = 0;
       } else {
+        // Did not meet requirements to be considered swipe reset position back to 0
         setDist(0);
       }
     } else {
+      // Did not meet requirements to be considered swipe reset position back to 0
       setDist(0);
     }
-    active.current = false;
+    e.preventDefault();
   }
 
   return (
@@ -127,21 +130,28 @@ const SwipeAndDismiss = ({ Element = 'li', children, className }) => {
       ref={cardItem}
       className={classnames({
         [className]: className,
-        'swipe-active': active.current,
-        'swipe-out': dismissed,
-        [`${className}--hidden`]: hidden,
+        'swipe--active': active.current,
+        'swipe--out': dismissed,
       })}
-      style={{ '--x-dist': dist, '--height': height, '--ycord': ycord }}
+      style={{
+        '--x-dist': dist,
+        '--height': height,
+        willChange: dismissed ? 'transform, max-height, opacity' : null,
+      }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onMouseDown={handleTouchStart}
       onMouseMove={handleTouchMove}
       onMouseUp={handleTouchEnd}
+      onTransitionEnd={() => (dismissed ? handleDismissal() : null)}
     >
       {children}
     </Element>
   );
-};
+}
 
-export default SwipeAndDismiss;
+SwipeAndDismiss.propTypes = propTypes;
+SwipeAndDismiss.defaultProps = {
+  Element: 'li',
+};

@@ -1,5 +1,6 @@
 :root {
   --x-dist: 0;
+  --x-height: 0;
 }
 $easing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
 
@@ -15,22 +16,15 @@ $easing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
   position: relative;
   width: 90vw;
 
-  &__item {
+  &__item,
+  &__skeleton {
     height: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     max-height: calc(#{var(--height)} * 1px + 10px);
     position: relative;
     touch-action: none;
     transform: translateX(calc(#{var(--x-dist)} * 1px));
-    transition: transform 0.5s $easing, height 0.5s $easing;
-
-    &--hidden {
-      // min-height: calc(#{var(--height)} * 1px + 10px);
-
-      & div {
-        display: none;
-      }
-    }
+    transition: transform 0.5s $easing, max-height 0.5s $easing, opacity 0.25s;
 
     div {
       cursor: move;
@@ -41,16 +35,17 @@ $easing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
       }
     }
 
-    &.swipe-active {
-      transition: transform 0s;
+    &.swipe--active {
+      opacity: 0.6;
+      transition: transform 0s, opacity 0.25s;
     }
 
-    &.swipe-out {
+    &.swipe--out {
       max-height: 0;
       margin: 0;
       transform: translateX(100vw) scaleX(0.00001);
       transition: transform 0.5s $easing, max-height 0.45s $easing 0.05s,
-        margin 0.45s $easing 0.05s;
+        margin 0.45s $easing 0.05s, opacity 0.25s;
     }
   }
 }

@@ -12,7 +12,10 @@ const api = `http://message-list.appspot.com/messages`;
 function App() {
   const [pageNumber, setPageNumber] = React.useState(1);
   // Initial call to api and initialization of list state
-  const { loading, error, items, pageToken } = useQuery(api, pageNumber);
+  const { loading, error, items, pageToken, setItems } = useQuery(
+    api,
+    pageNumber
+  );
 
   const observer = React.useRef();
   const lastItem = React.useCallback(
@@ -52,7 +55,12 @@ function App() {
           ERROR: {error.message}
         </Alert>
       ) : null}
-      <List items={items} lastItemRef={lastItem} loadMore={pageToken} />
+      <List
+        items={items}
+        lastItemRef={lastItem}
+        loadMore={pageToken}
+        handleDismissal={setItems}
+      />
     </div>
   );
 }

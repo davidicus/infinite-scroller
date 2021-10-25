@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CloseIcon from '@mui/icons-material/Close';
@@ -11,6 +12,10 @@ import Typography from '@mui/material/Typography';
 
 import ModeSwitch from '../ModeSwitch/ModeSwitch';
 
+const propTypes = {
+  /** Total amount of messages loaded */
+  itemsCount: PropTypes.number,
+};
 export default function MainAppBar({ itemsCount }) {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   return (
@@ -93,3 +98,8 @@ export default function MainAppBar({ itemsCount }) {
     </>
   );
 }
+
+MainAppBar.propTypes = propTypes;
+MainAppBar.defaultProps = {
+  itemsCount: 0,
+};

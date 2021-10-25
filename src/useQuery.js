@@ -3,13 +3,12 @@ import { useEffect, useState } from 'react';
 export default function useQuery(query, page) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [pageToken, setPageToken] = useState();
+  const [pageToken, setPageToken] = useState(null);
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     setLoading(true);
     setError(false);
-    setPageToken(null);
     fetch(`${query}?pageToken=${page}&limit=10`)
       .then((res) => res.json())
       .then((res) => {
@@ -20,8 +19,9 @@ export default function useQuery(query, page) {
       .catch((e) => {
         setLoading(false);
         setError(e);
+        setPageToken(null);
       });
   }, [query, page]);
 
-  return { loading, error, items, pageToken };
+  return { loading, error, items, pageToken, setItems };
 }
