@@ -5,7 +5,7 @@ import AppBar from './components/AppBar/AppBar';
 import List from './components/List/List';
 import useQuery from './useQuery';
 
-import './app.scss';
+import './App.scss';
 
 const api = `http://message-list.appspot.com/messages`;
 

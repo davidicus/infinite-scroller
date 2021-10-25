@@ -20,6 +20,7 @@ export default function SwipeAndDismiss({
   className,
   handleDismissal,
 }) {
+  let timer;
   // Set the custom property to be able to animate the height on dismissal
   const [height, setHeight] = React.useState();
   // Swipe passed all requirements to register a right swipe
@@ -42,8 +43,8 @@ export default function SwipeAndDismiss({
   // Time calculations starting point
   const startTime = React.useRef(0);
   // Actively swiping so dragging should happen
-  const active = React.useRef(false);
-
+  // const active = React.useRef(false);
+  const [active, setActive] = React.useState(false);
   React.useEffect(() => {
     // if the swipe is to the right dismiss
     if (swipedir && swipedir === 'right') {
@@ -72,25 +73,24 @@ export default function SwipeAndDismiss({
     startTime.current = new Date().getTime();
     // Make sure we still allow for text to be highlighted by checking target on non touch
     if (touchObj.target.tagName === 'DIV' || e.changedTouches) {
-      active.current = true;
+      setActive(true);
     }
-    e.preventDefault();
   }
 
   // Update components position during swipe
   function handleTouchMove(e) {
+    clearTimeout(timer);
     let touchObj = unify(e);
     distX.current = touchObj.pageX - startX.current;
-    if (active.current && distX.current > 0) {
+    if (active && distX.current > 0) {
       setDist(distX.current);
     }
-    e.preventDefault();
   }
 
   function handleTouchEnd(e) {
     var touchObj = unify(e);
     // No longer actively swiping
-    active.current = false;
+    setActive(false);
     // Get horizontal dist traveled by finger while in contact with surface
     distX.current = touchObj.pageX - startX.current;
     // Get vertical dist traveled by finger while in contact with surface
@@ -122,7 +122,6 @@ export default function SwipeAndDismiss({
       // Did not meet requirements to be considered swipe reset position back to 0
       setDist(0);
     }
-    e.preventDefault();
   }
 
   return (
@@ -130,7 +129,7 @@ export default function SwipeAndDismiss({
       ref={cardItem}
       className={classnames({
         [className]: className,
-        'swipe--active': active.current,
+        'swipe--active': active,
         'swipe--out': dismissed,
       })}
       style={{

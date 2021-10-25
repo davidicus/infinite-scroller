@@ -48,4 +48,14 @@ $easing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
         margin 0.45s $easing 0.05s, opacity 0.25s;
     }
   }
+
+  .MuiCardHeader-content {
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: column;
+
+    span {
+      display: inline-block;
+    }
+  }
 }
