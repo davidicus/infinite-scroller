@@ -20,31 +20,30 @@ export default function SwipeAndDismiss({
   className,
   handleDismissal,
 }) {
-  let timer;
   // Set the custom property to be able to animate the height on dismissal
   const [height, setHeight] = React.useState();
   // Swipe passed all requirements to register a right swipe
   const [dismissed, setDismissed] = React.useState(false);
   // The direction of the swipe
   const [swipedir, setSwipedir] = React.useState();
+  // How far the swipe was (update state to trigger a render)
+  const [dist, setDist] = React.useState(0);
+  // Actively swiping so dragging should happen
+  const [active, setActive] = React.useState(false);
   // Swipe calculations starting point
   const startX = React.useRef(0);
   const startY = React.useRef(0);
-  // How far the swipe was (update state to trigger a render)
-  const [dist, setDist] = React.useState(0);
   const distX = React.useRef(0);
   const distY = React.useRef(0);
+  // Time calculations starting point
+  const startTime = React.useRef(0);
   // Required min distance traveled to be considered swipe
   const threshold = 150;
   // Maximum distance allowed at the same time in perpendicular direction
   const restraint = 100;
   // Maximum time allowed to travel that distance
   const allowedTime = 1000;
-  // Time calculations starting point
-  const startTime = React.useRef(0);
-  // Actively swiping so dragging should happen
-  // const active = React.useRef(false);
-  const [active, setActive] = React.useState(false);
+
   React.useEffect(() => {
     // if the swipe is to the right dismiss
     if (swipedir && swipedir === 'right') {
@@ -79,7 +78,6 @@ export default function SwipeAndDismiss({
 
   // Update components position during swipe
   function handleTouchMove(e) {
-    clearTimeout(timer);
     let touchObj = unify(e);
     distX.current = touchObj.pageX - startX.current;
     if (active && distX.current > 0) {
@@ -135,7 +133,8 @@ export default function SwipeAndDismiss({
       style={{
         '--x-dist': dist,
         '--height': height,
-        willChange: dismissed ? 'transform, max-height, opacity' : null,
+        willChange:
+          dismissed || active ? 'transform, max-height, opacity' : null,
       }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}

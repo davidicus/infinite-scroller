@@ -15,14 +15,16 @@ const propTypes = {
   /** Ref to place on last item to trigger call for more items */
   lastItemRef: PropTypes.func,
   /** String that let's us know we have more messages to call */
-  loadMore: function (props, propName) {
+  loadMore: function (props, propName, componentName) {
     const { propName: data } = props;
     if (data === undefined) return;
     if (typeof data !== 'string' && data !== null) {
-      return new Error(`${propName} must either be a string or null`);
+      return new Error(
+        `The ${componentName}'s' ${propName} prop must either be a string or null`
+      );
     }
   },
-  /** Callback to update message list when one has been dismissed */
+  /** useState Callback to update message list when a list item has been dismissed */
   handleDismissal: PropTypes.func,
 };
 export default function List({

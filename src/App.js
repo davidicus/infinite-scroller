@@ -17,6 +17,16 @@ function App() {
     pageNumber
   );
 
+  React.useEffect(
+    () => () => {
+      // Disconnect from any old observers
+      if (observer.current) {
+        observer.current.disconnect();
+      }
+    },
+    []
+  );
+
   const observer = React.useRef();
   const lastItem = React.useCallback(
     (node) => {
@@ -39,9 +49,6 @@ function App() {
       // Once component mounts tell our observer to observe it
       if (node) {
         observer.current?.observe(node);
-      } else {
-        // Disconnect once component unmounts
-        observer.current?.disconnect();
       }
     },
     [loading, pageToken]

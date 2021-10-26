@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { purple, pink } from '@mui/material/colors';
+import { pink } from '@mui/material/colors';
 
 import './index.scss';
 import App from './App';
@@ -9,7 +9,7 @@ import App from './App';
 const theme = createTheme({
   palette: {
     primary: {
-      main: purple[600],
+      main: '#5f41b0',
     },
     secondary: {
       main: pink[300],
