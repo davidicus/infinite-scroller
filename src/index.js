@@ -17,6 +17,11 @@ const theme = createTheme({
   },
 });
 
+document.documentElement.setAttribute(
+  'lang',
+  navigator.language || navigator.userLanguage
+);
+
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>

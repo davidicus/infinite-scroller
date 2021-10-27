@@ -52,6 +52,7 @@ export default function List({
                 <CardHeader
                   avatar={
                     <Avatar
+                      className="message-list__avatar"
                       aria-label="Author"
                       src={`http://message-list.appspot.com${item.author.photoUrl}`}
                       alt={item.author.name}
@@ -82,6 +83,7 @@ export default function List({
                 <CardHeader
                   avatar={
                     <Avatar
+                      className="message-list__avatar"
                       sx={{ background: '#eee' }}
                       aria-label="Author"
                       src={`http://message-list.appspot.com${item.author.photoUrl}`}
@@ -89,10 +91,13 @@ export default function List({
                     />
                   }
                   title={item.author.name}
-                  subheader={new Intl.DateTimeFormat('en', {
-                    dateStyle: 'long',
-                    timeStyle: 'short',
-                  }).format(new Date(item.updated))}
+                  subheader={new Intl.DateTimeFormat(
+                    navigator.language || navigator.userLanguage,
+                    {
+                      dateStyle: 'long',
+                      timeStyle: 'short',
+                    }
+                  ).format(new Date(item.updated))}
                 />
                 <CardContent>
                   <Typography variant="body2" color="text.secondary">

@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { useLangDirection } from 'use-lang-direction';
 
 import ModeSwitch from '../ModeSwitch/ModeSwitch';
 
@@ -17,6 +18,7 @@ const propTypes = {
   itemsCount: PropTypes.number,
 };
 export default function MainAppBar({ itemsCount }) {
+  const langDir = useLangDirection();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   return (
     <>
@@ -34,6 +36,7 @@ export default function MainAppBar({ itemsCount }) {
         <AppBar position="static">
           <Toolbar>
             <IconButton
+              className="app-bar__menu-btn"
               size="large"
               edge="start"
               color="inherit"
@@ -55,7 +58,7 @@ export default function MainAppBar({ itemsCount }) {
         </AppBar>
       </Box>
       <Drawer
-        anchor={'left'}
+        anchor={langDir === 'ltr' ? 'left' : 'right'}
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       >

@@ -17,6 +17,16 @@
   .dark &__mode-switch {
     color: #eeeeee;
   }
+
+  html[dir='rtl'] &__menu-btn {
+    margin-left: 16px;
+    margin-right: -12px;
+  }
+}
+
+html[dir='rtl'] .app-bar__mode-switch svg {
+  margin-left: 16px;
+  margin-right: unset;
 }
 
 .app-theme-toggle {

@@ -45,9 +45,14 @@ $easing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
       max-height: 0;
       margin: 0;
       transform: translateX(100vw) scaleX(0.00001);
-      transition: transform 0.5s $easing, max-height 0.45s $easing 0.05s,
-        margin 0.45s $easing 0.05s, opacity 0.25s;
+      transition: transform 0.5s $easing, max-height 0.5s $easing,
+        margin 0.5s $easing, opacity 0.25s;
     }
+  }
+
+  html[dir='rtl'] &__avatar {
+    margin-right: unset;
+    margin-left: 16px;
   }
 
   .MuiCardHeader-content {
