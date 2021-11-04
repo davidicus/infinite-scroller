@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/davidicus.github.io/infinite-scroller/static/css/main.9b3b36c2.chunk.css",
+    "main.js": "/davidicus.github.io/infinite-scroller/static/js/main.1bbd4551.chunk.js",
+    "main.js.map": "/davidicus.github.io/infinite-scroller/static/js/main.1bbd4551.chunk.js.map",
+    "runtime-main.js": "/davidicus.github.io/infinite-scroller/static/js/runtime-main.23e962ce.js",
+    "runtime-main.js.map": "/davidicus.github.io/infinite-scroller/static/js/runtime-main.23e962ce.js.map",
+    "static/js/2.76bab2fd.chunk.js": "/davidicus.github.io/infinite-scroller/static/js/2.76bab2fd.chunk.js",
+    "static/js/2.76bab2fd.chunk.js.map": "/davidicus.github.io/infinite-scroller/static/js/2.76bab2fd.chunk.js.map",
+    "index.html": "/davidicus.github.io/infinite-scroller/index.html",
+    "static/css/main.9b3b36c2.chunk.css.map": "/davidicus.github.io/infinite-scroller/static/css/main.9b3b36c2.chunk.css.map",
+    "static/js/2.76bab2fd.chunk.js.LICENSE.txt": "/davidicus.github.io/infinite-scroller/static/js/2.76bab2fd.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.23e962ce.js",
+    "static/js/2.76bab2fd.chunk.js",
+    "static/css/main.9b3b36c2.chunk.css",
+    "static/js/main.1bbd4551.chunk.js"
+  ]
+}
