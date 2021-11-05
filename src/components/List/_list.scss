@@ -15,6 +15,11 @@ $easing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
   padding: 7rem 0 0;
   position: relative;
   width: 90vw;
+  touch-action: pan-down;
+
+  &__item > div {
+    width: 85vw;
+  }
 
   &__item,
   &__skeleton {
