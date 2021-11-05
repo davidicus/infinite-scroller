@@ -103,7 +103,7 @@ export default function SwipeAndDismiss({
         // Distance and threshold tolerances met for horiztonal swipe
         // if dist traveled is negative, it indicates left swipe
         setSwipedir(touchObj.pageX - startX.current < 0 ? 'left' : 'right');
-        setDist(0);
+        setDist(window.innerWidth + 100);
       } else if (
         Math.abs(touchObj.pageY - startY.current) >= threshold &&
         Math.abs(touchObj.pageX - startX.current) <= restraint
