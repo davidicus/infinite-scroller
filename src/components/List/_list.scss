@@ -49,9 +49,10 @@ $easing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
       max-height: 0;
       margin: 0;
       opacity: 0;
+      overflow: hidden;
       transform: translateX(110vw);
       transition: transform 0.5s $easing, max-height 0.5s $easing,
-        margin 0.5s $easing, opacity 0.15s;
+        margin 0.5s $easing, opacity 0.5s;
     }
   }
 
