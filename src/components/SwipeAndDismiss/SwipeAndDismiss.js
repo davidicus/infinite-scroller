@@ -112,6 +112,7 @@ export default function SwipeAndDismiss({
         // if dist traveled is negative, it indicates up swipe
         setSwipedir(touchObj.pageY - startY.current < 0 ? 'up' : 'down');
         distX.current = 0;
+        setDist(0);
       } else {
         // Did not meet requirements to be considered swipe reset position back to 0
         setDist(0);

@@ -26,7 +26,6 @@ $easing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
     margin-bottom: 0.75rem;
     max-height: calc(#{var(--height)} * 1px + 10px);
     position: relative;
-    touch-action: none;
     transform: translateX(calc(#{var(--x-dist)} * 1px));
     transition: transform 0.5s $easing, max-height 0.5s $easing, opacity 0.25s;
 
